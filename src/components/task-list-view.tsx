@@ -136,7 +136,7 @@ export function TaskListView({ tasks, onTaskClick }: TaskListViewProps) {
     {
       id: "in-progress",
       title: "In Progress",
-      status: "active",
+      status: "active" as const,
       icon: <CircleDot className="size-4 text-amber-500" />,
       iconColor: "text-amber-500",
       tasks: activeTasks,
@@ -144,7 +144,7 @@ export function TaskListView({ tasks, onTaskClick }: TaskListViewProps) {
     {
       id: "done",
       title: "Done",
-      status: "completed",
+      status: "completed" as const,
       icon: <CircleCheck className="size-4 text-emerald-500" />,
       iconColor: "text-emerald-500",
       tasks: completedTasks,
