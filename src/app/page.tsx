@@ -5,13 +5,13 @@ import { ChatPanel } from "@/components/chat-panel";
 
 export default function Home() {
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen className="h-svh">
       <AppSidebar />
-      <main className="flex flex-1 overflow-hidden gap-2 p-2">
-        <div className="flex-1 min-w-0 rounded-xl bg-card border border-border overflow-hidden">
+      <main className="flex flex-1 overflow-hidden gap-2 p-2 h-full">
+        <div className="flex-1 min-w-0 rounded-xl bg-card border border-border overflow-hidden flex flex-col">
           <TaskPanel />
         </div>
-        <div className="w-[400px] shrink-0 rounded-xl bg-card border border-border overflow-hidden">
+        <div className="w-[400px] shrink-0 rounded-xl bg-card border border-border overflow-hidden flex flex-col">
           <ChatPanel />
         </div>
       </main>
