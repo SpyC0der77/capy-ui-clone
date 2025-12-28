@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -33,7 +34,6 @@ import {
   ListTodo,
   Settings,
   Sparkles,
-  Copy,
   ChevronDown,
   Check,
   LogOut,
@@ -79,6 +79,8 @@ const userMenuItems = [
 ];
 
 export function AppSidebar() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState("scratchpad");
@@ -86,6 +88,17 @@ export function AppSidebar() {
   const selectedWorkspaceData = workspaces.find(
     (w) => w.value === selectedWorkspace
   );
+
+  function handleUserMenuItem(value: string) {
+    setUserMenuOpen(false);
+    if (value === "settings") {
+      router.push("/settings");
+    } else if (value === "profile") {
+      // Handle profile navigation
+    } else if (value === "logout") {
+      // Handle logout
+    }
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -141,9 +154,6 @@ export function AppSidebar() {
             <Button variant="ghost" size="icon" className="size-7">
               <Settings className="size-4 text-muted-foreground" />
             </Button>
-            <Button variant="ghost" size="icon" className="size-7">
-              <Copy className="size-4 text-muted-foreground" />
-            </Button>
           </div>
         </div>
       </SidebarHeader>
@@ -166,7 +176,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive className="gap-3">
+                <SidebarMenuButton
+                  isActive={pathname === "/"}
+                  onClick={() => router.push("/")}
+                  className="gap-3"
+                >
                   <ListTodo className="size-4" />
                   <span className="group-data-[collapsible=icon]:hidden">
                     Tasks
@@ -204,10 +218,7 @@ export function AppSidebar() {
                     <CommandItem
                       key={item.value}
                       value={item.value}
-                      onSelect={() => {
-                        setUserMenuOpen(false);
-                        // Handle menu item selection here
-                      }}
+                      onSelect={handleUserMenuItem}
                     >
                       <item.icon className="size-4" />
                       <span>{item.label}</span>
