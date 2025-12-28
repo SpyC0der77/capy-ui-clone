@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { KanbanBoard, type Task } from "@/components/kanban-board";
 import { TaskListView } from "@/components/task-list-view";
 import { TaskModal } from "@/components/task-modal";
-import { LayoutGrid, SlidersHorizontal, List, Plus } from "lucide-react";
+import { LayoutGrid, List, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type ViewMode = "kanban" | "list";
@@ -16,7 +17,6 @@ const initialTasks: Task[] = [
     title: "Clone UI with Next.js and ShadCN",
     description: "Clone this UI in Next.js using ShadCN/ui.",
     date: "Dec 17",
-    model: "Sonnet 4.5",
     status: "completed",
   },
   {
@@ -24,7 +24,6 @@ const initialTasks: Task[] = [
     title: "Implement authentication flow",
     description: "Add OAuth and email/password authentication.",
     date: "Dec 20",
-    model: "Opus 4",
     status: "active",
   },
   {
@@ -32,7 +31,6 @@ const initialTasks: Task[] = [
     title: "Build API endpoints",
     description: "Create REST API for task management.",
     date: "Dec 22",
-    model: "Sonnet 4.5",
     status: "active",
   },
   {
@@ -40,7 +38,6 @@ const initialTasks: Task[] = [
     title: "Design database schema",
     description: "PostgreSQL schema for users and tasks.",
     date: "Dec 15",
-    model: "Opus 4",
     status: "completed",
   },
 ];
@@ -51,6 +48,41 @@ export function TaskPanel() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const activeButtonRef = useRef<HTMLButtonElement>(null);
+  const doneButtonRef = useRef<HTMLButtonElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+  });
+
+  useEffect(() => {
+    function updateIndicator() {
+      const activeButton = activeButtonRef.current;
+      const doneButton = doneButtonRef.current;
+      const container = activeButton?.parentElement;
+
+      if (!activeButton || !doneButton || !container) return;
+
+      const activeRect = activeButton.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      if (activeTab === "active") {
+        setIndicatorStyle({
+          left: activeRect.left - containerRect.left,
+          width: activeRect.width,
+        });
+      } else {
+        setIndicatorStyle({
+          left: doneButton.getBoundingClientRect().left - containerRect.left,
+          width: doneButton.getBoundingClientRect().width,
+        });
+      }
+    }
+
+    updateIndicator();
+    window.addEventListener("resize", updateIndicator);
+    return () => window.removeEventListener("resize", updateIndicator);
+  }, [activeTab]);
 
   function handleOpenCreateModal() {
     setEditingTask(null);
@@ -83,10 +115,11 @@ export function TaskPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-4 border-b border-border">
+      <div className="flex items-center justify-between px-4 border-b border-border bg-[#1F1F1F]">
         {/* Tabs */}
-        <div className="flex items-center gap-1">
+        <div className="relative flex items-center gap-1">
           <button
+            ref={activeButtonRef}
             onClick={() => setActiveTab("active")}
             className={cn(
               "relative px-3 py-3 text-sm font-medium transition-colors",
@@ -96,11 +129,9 @@ export function TaskPanel() {
             )}
           >
             Active
-            {activeTab === "active" && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-            )}
           </button>
           <button
+            ref={doneButtonRef}
             onClick={() => setActiveTab("done")}
             className={cn(
               "relative px-3 py-3 text-sm font-medium transition-colors",
@@ -110,47 +141,44 @@ export function TaskPanel() {
             )}
           >
             Done
-            {activeTab === "done" && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-            )}
           </button>
+          <span
+            className="absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ease-in-out"
+            style={{
+              left: `${indicatorStyle.left}px`,
+              width: `${indicatorStyle.width}px`,
+            }}
+          />
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="size-8">
-            <SlidersHorizontal className="size-4 text-muted-foreground" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn("size-8", viewMode === "kanban" && "bg-muted")}
-            onClick={() => setViewMode("kanban")}
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value) => {
+              if (value) setViewMode(value as ViewMode);
+            }}
+            variant="outline"
+            size="sm"
+            spacing={0}
+            className="h-8"
           >
-            <LayoutGrid
-              className={cn(
-                "size-4",
-                viewMode === "kanban"
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              )}
-            />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn("size-8", viewMode === "list" && "bg-muted")}
-            onClick={() => setViewMode("list")}
-          >
-            <List
-              className={cn(
-                "size-4",
-                viewMode === "list"
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              )}
-            />
-          </Button>
+            <ToggleGroupItem
+              value="kanban"
+              aria-label="Board view"
+              className="size-8 px-0"
+            >
+              <LayoutGrid className="size-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="list"
+              aria-label="List view"
+              className="size-8 px-0"
+            >
+              <List className="size-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
           <Button
             size="sm"
             className="gap-1.5 h-8 ml-1"

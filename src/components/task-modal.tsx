@@ -29,8 +29,6 @@ interface TaskModalProps {
   onSave: (task: Omit<Task, "id"> & { id?: string }) => void;
 }
 
-const models = ["Sonnet 4.5", "Opus 4", "Claude 3.5", "GPT-4"];
-
 export function TaskModal({
   open,
   onOpenChange,
@@ -41,7 +39,6 @@ export function TaskModal({
     title: "",
     description: "",
     date: "",
-    model: "Sonnet 4.5",
     status: "active" as "active" | "completed",
   });
 
@@ -53,7 +50,6 @@ export function TaskModal({
         title: task.title,
         description: task.description,
         date: task.date,
-        model: task.model,
         status: task.status,
       });
     } else {
@@ -65,7 +61,6 @@ export function TaskModal({
         title: "",
         description: "",
         date: `${month} ${day}`,
-        model: "Sonnet 4.5",
         status: "active",
       });
     }
@@ -135,43 +130,22 @@ export function TaskModal({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="model">Model</Label>
+              <Label htmlFor="status">Status</Label>
               <Select
-                value={formData.model}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, model: value })
+                value={formData.status}
+                onValueChange={(value: "active" | "completed") =>
+                  setFormData({ ...formData, status: value })
                 }
               >
-                <SelectTrigger id="model">
+                <SelectTrigger id="status">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {models.map((model) => (
-                    <SelectItem key={model} value={model}>
-                      {model}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
-            <Select
-              value={formData.status}
-              onValueChange={(value: "active" | "completed") =>
-                setFormData({ ...formData, status: value })
-              }
-            >
-              <SelectTrigger id="status">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <DialogFooter>

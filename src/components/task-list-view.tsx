@@ -3,16 +3,7 @@
 import { useState } from "react";
 import type { Task } from "@/components/kanban-board";
 import { cn } from "@/lib/utils";
-import {
-  ChevronRight,
-  Circle,
-  CircleDot,
-  CircleCheck,
-  BarChart3,
-  Calendar,
-  User,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ChevronRight, CircleDot, CircleCheck } from "lucide-react";
 
 interface TaskListViewProps {
   tasks: Task[];
@@ -83,19 +74,6 @@ function TaskRow({
       <span className="flex-1 text-sm font-medium text-foreground truncate">
         {task.title}
       </span>
-
-      {/* Model Badge (simulating labels) */}
-      <Badge
-        variant="outline"
-        className="shrink-0 text-[10px] font-normal px-1.5 py-0 h-5 border-red-500/30 text-red-400 bg-red-500/10 hidden group-hover:flex"
-      >
-        {task.model}
-      </Badge>
-
-      {/* Assignee */}
-      <div className="size-5 rounded-full bg-muted flex items-center justify-center shrink-0">
-        <User className="size-3 text-muted-foreground" />
-      </div>
 
       {/* Date */}
       <span className="text-xs text-muted-foreground w-16 text-right shrink-0">
@@ -174,7 +152,7 @@ export function TaskListView({ tasks, onTaskClick }: TaskListViewProps) {
   ].filter((group) => group.tasks.length > 0);
 
   return (
-    <div className="flex flex-col h-full overflow-auto bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="flex flex-col h-full overflow-auto bg-[#1F1F1F]">
       {groups.map((group) => (
         <TaskGroupSection
           key={group.id}
@@ -191,4 +169,3 @@ export function TaskListView({ tasks, onTaskClick }: TaskListViewProps) {
     </div>
   );
 }
-

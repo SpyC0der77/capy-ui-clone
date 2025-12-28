@@ -1,14 +1,12 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Trash2, Bot } from "lucide-react";
+import { Clock, Trash2 } from "lucide-react";
 
 interface TaskCardProps {
   id: string;
   title: string;
   description: string;
   date: string;
-  model: string;
   status: "completed" | "active";
 }
 
@@ -17,7 +15,6 @@ export function TaskCard({
   title,
   description,
   date,
-  model,
   status,
 }: TaskCardProps) {
   return (
@@ -33,16 +30,6 @@ export function TaskCard({
       <div className="space-y-1">
         <h3 className="font-semibold text-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Badge
-          variant="secondary"
-          className="gap-1.5 bg-muted/50 text-muted-foreground font-normal"
-        >
-          <Bot className="size-3" />
-          {model}
-        </Badge>
       </div>
 
       <div className="flex items-center justify-between pt-1">

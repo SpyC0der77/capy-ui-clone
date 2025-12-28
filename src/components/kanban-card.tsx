@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Trash2, Bot, GripVertical, RotateCcw, Play } from "lucide-react";
+import { Clock, Trash2, GripVertical, RotateCcw, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Task } from "./kanban-board";
 
@@ -16,11 +16,7 @@ interface KanbanCardProps {
   onTaskClick?: (task: Task) => void;
 }
 
-export function KanbanCard({
-  task,
-  isOverlay,
-  onTaskClick,
-}: KanbanCardProps) {
+export function KanbanCard({ task, isOverlay, onTaskClick }: KanbanCardProps) {
   return (
     <Card
       className={cn(
@@ -30,33 +26,32 @@ export function KanbanCard({
         "hover:shadow-md hover:shadow-primary/5 hover:border-primary/30 hover:-translate-y-0.5",
         "group",
         !isOverlay && onTaskClick && "cursor-pointer",
-        isOverlay && "shadow-2xl shadow-primary/20 rotate-1 scale-105 border-primary/40 bg-card"
+        isOverlay &&
+          "shadow-2xl shadow-primary/20 rotate-1 scale-105 border-primary/40 bg-card"
       )}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div className="size-3.5 rounded-md bg-gradient-to-br from-primary/40 to-primary/20 shadow-sm flex-shrink-0" />
-          <span className="text-xs font-semibold text-primary tracking-tight truncate">{task.id}</span>
+          <span className="text-xs font-semibold text-primary tracking-tight truncate">
+            {task.id}
+          </span>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-xs text-muted-foreground/80 font-medium">{task.date}</span>
+          <span className="text-xs text-muted-foreground/80 font-medium">
+            {task.date}
+          </span>
           <GripVertical className="size-3.5 text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors" />
         </div>
       </div>
 
       <div className="space-y-2">
-        <h3 className="font-semibold text-foreground leading-snug text-sm line-clamp-2">{task.title}</h3>
-        <p className="text-xs text-muted-foreground/80 line-clamp-2 leading-relaxed">{task.description}</p>
-      </div>
-
-      <div className="flex items-center gap-2 pt-1">
-        <Badge
-          variant="secondary"
-          className="gap-1.5 bg-muted/60 text-muted-foreground font-normal text-xs border border-border/50 px-2 py-0.5"
-        >
-          <Bot className="size-3" />
-          {task.model}
-        </Badge>
+        <h3 className="font-semibold text-foreground leading-snug text-sm line-clamp-2">
+          {task.title}
+        </h3>
+        <p className="text-xs text-muted-foreground/80 line-clamp-2 leading-relaxed">
+          {task.description}
+        </p>
       </div>
 
       <div className="flex items-center justify-between pt-2 border-t border-border/50">
@@ -66,7 +61,10 @@ export function KanbanCard({
             {task.status === "completed" ? "Completed" : "In Progress"}
           </span>
         </div>
-        <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="flex items-center gap-1"
+          onClick={(e) => e.stopPropagation()}
+        >
           {task.status === "completed" ? (
             <Button
               variant="secondary"
@@ -159,6 +157,7 @@ export function SortableKanbanCard({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onClick={handleClick}
+      suppressHydrationWarning
       className={cn(
         "transition-all duration-200",
         isDragging && "opacity-50 scale-95"
@@ -170,4 +169,3 @@ export function SortableKanbanCard({
     </div>
   );
 }
-

@@ -28,7 +28,6 @@ export interface Task {
   title: string;
   description: string;
   date: string;
-  model: string;
   status: "active" | "completed";
 }
 
@@ -138,12 +137,12 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex h-full gap-5 p-5 overflow-x-auto bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="flex h-full gap-5 p-5 overflow-x-auto bg-[#1F1F1F]">
         <KanbanColumn
           id="active"
           title="Active"
           count={activeTasks.length}
-          accentColor="bg-amber-500"
+          accentColor="bg-[#0070C3]"
         >
           <SortableContext
             items={activeTasks.map((t) => t.id)}
@@ -163,7 +162,7 @@ export function KanbanBoard({
           id="completed"
           title="Done"
           count={completedTasks.length}
-          accentColor="bg-emerald-500"
+          accentColor="bg-[#0070C3]"
         >
           <SortableContext
             items={completedTasks.map((t) => t.id)}
@@ -180,13 +179,14 @@ export function KanbanBoard({
         </KanbanColumn>
       </div>
 
-      <DragOverlay dropAnimation={{
-        duration: 250,
-        easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
-      }}>
+      <DragOverlay
+        dropAnimation={{
+          duration: 250,
+          easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+        }}
+      >
         {activeTask ? <KanbanCard task={activeTask} isOverlay /> : null}
       </DragOverlay>
     </DndContext>
   );
 }
-
