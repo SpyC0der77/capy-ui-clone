@@ -41,13 +41,6 @@ export function TaskCard({
         </div>
         <div className="flex items-center gap-2">
           <Button
-            variant="secondary"
-            size="sm"
-            className="h-7 px-3 text-xs font-medium"
-          >
-            Reopen
-          </Button>
-          <Button
             variant="ghost"
             size="icon"
             className="size-7 text-destructive hover:text-destructive hover:bg-destructive/10"

@@ -3,10 +3,9 @@
 import { useRef } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Trash2, GripVertical, RotateCcw, Play } from "lucide-react";
+import { Clock, Trash2, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Task } from "./kanban-board";
 
@@ -65,25 +64,6 @@ export function KanbanCard({ task, isOverlay, onTaskClick }: KanbanCardProps) {
           className="flex items-center gap-1"
           onClick={(e) => e.stopPropagation()}
         >
-          {task.status === "completed" ? (
-            <Button
-              variant="secondary"
-              size="sm"
-              className="h-7 px-2.5 text-xs font-medium gap-1.5 bg-muted/50 hover:bg-muted border border-border/50"
-            >
-              <RotateCcw className="size-3" />
-              Reopen
-            </Button>
-          ) : (
-            <Button
-              variant="secondary"
-              size="sm"
-              className="h-7 px-2.5 text-xs font-medium gap-1.5 bg-muted/50 hover:bg-muted border border-border/50"
-            >
-              <Play className="size-3" />
-              Resume
-            </Button>
-          )}
           <Button
             variant="ghost"
             size="icon"

@@ -151,12 +151,14 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup className="px-4 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-0">
           <div className="relative group-data-[collapsible=icon]:hidden">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white stroke-2 fill-none" />
             <Input
               placeholder="Search tasks and threads"
-              className="h-9 bg-sidebar-accent/50 border-0 pl-9 pr-12 text-sm placeholder:text-muted-foreground"
+              className="h-9 bg-muted/80 border-0 pl-9 pr-12 text-sm placeholder:text-muted-foreground rounded-md"
             />
-            <Kbd className="absolute right-2 top-1/2 -translate-y-1/2">⌘K</Kbd>
+            <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted/90 text-white rounded">
+              ⌘ K
+            </Kbd>
           </div>
         </SidebarGroup>
 
