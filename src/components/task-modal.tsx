@@ -77,86 +77,104 @@ export function TaskModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>{isEditMode ? "Edit Task" : "Create New Task"}</DialogTitle>
-          <DialogDescription>
-            {isEditMode
-              ? "Update the task details below."
-              : "Fill in the details to create a new task."}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-[540px] p-0 gap-0 overflow-hidden">
+        <div className="px-6 pt-6 pb-4 border-b">
+          <DialogHeader className="space-y-3">
+            <DialogTitle className="text-xl">
+              {isEditMode ? "Edit Task" : "Create New Task"}
+            </DialogTitle>
+            <DialogDescription className="text-base">
+              {isEditMode
+                ? "Update the task details below."
+                : "Fill in the details to create a new task."}
+            </DialogDescription>
+          </DialogHeader>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              placeholder="Enter task title"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              placeholder="Enter task description"
-              rows={4}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <div className="px-6 py-5 space-y-5">
+            <div className="space-y-2.5">
+              <Label htmlFor="title" className="text-sm font-medium">
+                Title
+              </Label>
               <Input
-                id="date"
-                value={formData.date}
+                id="title"
+                value={formData.title}
                 onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
+                  setFormData({ ...formData, title: e.target.value })
                 }
-                placeholder="Dec 17"
+                placeholder="Enter task title"
+                className="h-10"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value: "active" | "completed") =>
-                  setFormData({ ...formData, status: value })
+            <div className="space-y-2.5">
+              <Label htmlFor="description" className="text-sm font-medium">
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
                 }
-              >
-                <SelectTrigger id="status">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
+                placeholder="Enter task description"
+                rows={4}
+                className="resize-none"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2.5">
+                <Label htmlFor="date" className="text-sm font-medium">
+                  Date
+                </Label>
+                <Input
+                  id="date"
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                  placeholder="Dec 17"
+                  className="h-10"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2.5">
+                <Label htmlFor="status" className="text-sm font-medium">
+                  Status
+                </Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value: "active" | "completed") =>
+                    setFormData({ ...formData, status: value })
+                  }
+                >
+                  <SelectTrigger id="status" className="h-10">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="px-6 py-4 bg-muted/30 border-t gap-3 sm:gap-3">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
+              className="h-10 px-5"
             >
               Cancel
             </Button>
-            <Button type="submit">
+            <Button type="submit" className="h-10 px-5">
               {isEditMode ? "Save Changes" : "Create Task"}
             </Button>
           </DialogFooter>
