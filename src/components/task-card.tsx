@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Clock, Trash2, Bot } from "lucide-react";
 
 interface TaskCardProps {
@@ -20,7 +21,7 @@ export function TaskCard({
   status,
 }: TaskCardProps) {
   return (
-    <div className="rounded-xl bg-card p-4 space-y-3">
+    <Card className="p-4 space-y-3">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2">
           <div className="size-4 rounded bg-primary/20" />
@@ -68,6 +69,6 @@ export function TaskCard({
           </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

@@ -12,7 +12,10 @@ import {
   Paperclip,
   Send,
   Bot,
+  ChevronDown,
+  Menu,
 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const suggestions = [
   { icon: Search, label: "Analyze latest changes" },
@@ -25,44 +28,21 @@ const suggestions = [
 export function ChatPanel() {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between border-b border-border px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-foreground">Carter</span>
-          <svg
-            className="size-4 text-muted-foreground"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
+          <ChevronDown className="size-4 text-muted-foreground" />
         </div>
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" className="size-7">
             <Search className="size-4 text-muted-foreground" />
           </Button>
           <Button variant="ghost" size="icon" className="size-7">
-            <svg
-              className="size-4 text-muted-foreground"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <Menu className="size-4 text-muted-foreground" />
           </Button>
         </div>
       </div>
+      <Separator />
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center justify-center px-6 py-16">
@@ -89,7 +69,8 @@ export function ChatPanel() {
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border p-4">
+      <Separator />
+      <div className="p-4">
         <div className="relative">
           <Input
             placeholder="Ask Captain Capy..."

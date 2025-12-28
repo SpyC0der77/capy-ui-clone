@@ -3,6 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { TaskCard } from "@/components/task-card";
 import { LayoutGrid, SlidersHorizontal, Plus, Circle } from "lucide-react";
 
@@ -21,7 +22,7 @@ export function TaskPanel() {
   return (
     <div className="flex h-full flex-col">
       <Tabs defaultValue="done" className="flex h-full flex-col">
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3">
           <TabsList className="bg-transparent p-0 h-auto gap-1">
             <TabsTrigger
               value="active"
@@ -50,6 +51,7 @@ export function TaskPanel() {
             </Button>
           </div>
         </div>
+        <Separator />
 
         <TabsContent value="active" className="flex-1 m-0 overflow-hidden">
           <ScrollArea className="h-full">
