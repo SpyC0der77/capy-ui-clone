@@ -209,7 +209,11 @@ export function TaskPanel() {
             onTaskClick={handleOpenEditModal}
           />
         ) : (
-          <TaskListView tasks={tasks} onTaskClick={handleOpenEditModal} />
+          <TaskListView
+            tasks={tasks}
+            setTasks={setTasks}
+            onTaskClick={handleOpenEditModal}
+          />
         )}
       </div>
 
