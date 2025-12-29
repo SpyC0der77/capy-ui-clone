@@ -21,7 +21,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSettings } from "@/contexts/settings-context";
-import { Settings, Palette, LayoutGrid, List, Info } from "lucide-react";
+import { Settings, Palette, LayoutGrid, List, Info, SplitSquareHorizontal, Square } from "lucide-react";
 import { toast } from "sonner";
 
 function SettingsMainContent() {
@@ -128,6 +128,38 @@ function SettingsMainContent() {
                       Choose your default task view mode
                     </p>
                   </div>
+                  <Separator />
+                  <div className="space-y-2">
+                    <Label htmlFor="layout-style">Layout Style</Label>
+                    <Select
+                      value={settings.layoutStyle}
+                      onValueChange={(value: "split" | "connected") => {
+                        updateSetting("layoutStyle", value);
+                        toast.success(`Layout changed to ${value}`);
+                      }}
+                    >
+                      <SelectTrigger id="layout-style" className="w-full">
+                        <SelectValue placeholder="Select layout style" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="split">
+                          <div className="flex items-center gap-2">
+                            <SplitSquareHorizontal className="size-4" />
+                            Split
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="connected">
+                          <div className="flex items-center gap-2">
+                            <Square className="size-4" />
+                            Connected
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-sm text-muted-foreground">
+                      Choose how task and chat panels are displayed
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
 
@@ -169,6 +201,15 @@ function SettingsMainContent() {
                   <p>
                     Set your preferred default view for tasks. Choose between
                     kanban board or list view.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-medium text-foreground mb-1">
+                    Layout Style
+                  </h3>
+                  <p>
+                    Split shows task and chat panels as separate cards. Connected
+                    joins them into a single unified panel.
                   </p>
                 </div>
               </div>

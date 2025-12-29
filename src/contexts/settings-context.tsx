@@ -7,6 +7,7 @@ interface Settings {
   theme: "light" | "dark" | "system";
   sidebarOpen: boolean;
   viewMode: "kanban" | "list";
+  layoutStyle: "split" | "connected";
 }
 
 interface SettingsContextType {
@@ -21,6 +22,7 @@ const defaultSettings: Settings = {
   theme: "system",
   sidebarOpen: true,
   viewMode: "kanban",
+  layoutStyle: "split",
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(
