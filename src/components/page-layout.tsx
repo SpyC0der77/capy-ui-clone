@@ -1,8 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { CommandMenu } from "@/components/command-menu";
 import { useSettings } from "@/contexts/settings-context";
 
 interface PageLayoutProps {
@@ -49,6 +50,7 @@ function LayoutContent({ mainContent, sideContent }: PageLayoutProps) {
 
 export function PageLayout({ mainContent, sideContent }: PageLayoutProps) {
   const { settings, updateSetting } = useSettings();
+  const [commandMenuOpen, setCommandMenuOpen] = useState(false);
 
   return (
     <SidebarProvider
@@ -56,8 +58,9 @@ export function PageLayout({ mainContent, sideContent }: PageLayoutProps) {
       onOpenChange={(open) => updateSetting("sidebarOpen", open)}
       className="h-svh"
     >
-      <AppSidebar />
+      <AppSidebar onSearchClick={() => setCommandMenuOpen(true)} />
       <LayoutContent mainContent={mainContent} sideContent={sideContent} />
+      <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />
     </SidebarProvider>
   );
 }

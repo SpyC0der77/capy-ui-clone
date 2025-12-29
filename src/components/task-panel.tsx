@@ -89,6 +89,18 @@ export function TaskPanel() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [activeTab]);
 
+  // Listen for command menu create task event
+  useEffect(() => {
+    function handleCreateTask() {
+      setEditingTask(null);
+      setModalOpen(true);
+    }
+
+    window.addEventListener("command-menu:create-task", handleCreateTask);
+    return () =>
+      window.removeEventListener("command-menu:create-task", handleCreateTask);
+  }, []);
+
   function handleOpenCreateModal() {
     setEditingTask(null);
     setModalOpen(true);
