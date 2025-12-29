@@ -29,7 +29,7 @@ function SettingsMain() {
 
   return (
     <>
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+      <div className="flex items-center gap-2 px-4 h-12 border-b border-border shrink-0">
         <SidebarTrigger />
         <div className="flex items-center gap-2">
           <Settings className="size-5" />
@@ -169,13 +169,13 @@ function SettingsMain() {
 
 function SettingsSide() {
   return (
-    <ScrollArea className="flex-1 min-h-0">
-      <div className="p-6 space-y-4">
-        <div className="flex items-center gap-2">
-          <Info className="size-5" />
-          <h2 className="text-lg font-semibold">Settings Info</h2>
-        </div>
-        <Separator />
+    <>
+      <div className="flex items-center gap-2 px-4 h-12 border-b border-border shrink-0">
+        <Info className="size-5" />
+        <h2 className="text-sm font-semibold">Settings Info</h2>
+      </div>
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="p-6 space-y-4">
         <div className="space-y-4 text-sm text-muted-foreground">
           <div>
             <h3 className="font-medium text-foreground mb-1">Theme</h3>
@@ -206,8 +206,9 @@ function SettingsSide() {
             </p>
           </div>
         </div>
-      </div>
-    </ScrollArea>
+        </div>
+      </ScrollArea>
+    </>
   );
 }
 

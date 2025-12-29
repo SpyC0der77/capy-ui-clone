@@ -28,7 +28,7 @@ const suggestions = [
 export function ChatPanel() {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 h-12 border-b border-border shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-foreground">Carter</span>
           <ChevronDown className="size-4 text-muted-foreground" />
@@ -42,7 +42,6 @@ export function ChatPanel() {
           </Button>
         </div>
       </div>
-      <Separator />
 
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center justify-center px-6 py-16">
