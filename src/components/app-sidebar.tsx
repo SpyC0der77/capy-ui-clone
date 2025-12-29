@@ -160,16 +160,27 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup className="px-4 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-0">
-          <div className="relative group-data-[collapsible=icon]:hidden">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white stroke-2 fill-none" />
-            <Input
-              placeholder="Search tasks and threads"
-              className="h-9 bg-muted/80 border-0 pl-9 pr-12 text-sm placeholder:text-muted-foreground rounded-md"
-            />
-            <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted/90 text-white rounded">
-              ⌘ K
-            </Kbd>
-          </div>
+          <button
+            onClick={() => {
+              const event = new KeyboardEvent("keydown", {
+                key: "k",
+                metaKey: true,
+                bubbles: true,
+              });
+              document.dispatchEvent(event);
+            }}
+            className="w-full group-data-[collapsible=icon]:hidden"
+          >
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white stroke-2 fill-none pointer-events-none" />
+              <div className="h-9 w-full bg-muted/80 border-0 pl-9 pr-12 text-sm text-muted-foreground rounded-md flex items-center cursor-pointer hover:bg-muted transition-colors">
+                Search tasks and threads
+              </div>
+              <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted/90 text-white rounded pointer-events-none">
+                ⌘ K
+              </Kbd>
+            </div>
+          </button>
         </SidebarGroup>
 
         <SidebarGroup>
