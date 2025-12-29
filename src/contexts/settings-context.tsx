@@ -18,7 +18,7 @@ interface SettingsContextType {
 }
 
 const defaultSettings: Settings = {
-  theme: "system",
+  theme: "dark",
   sidebarOpen: true,
   viewMode: "kanban",
 };
