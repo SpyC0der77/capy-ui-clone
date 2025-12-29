@@ -27,7 +27,7 @@ export function KanbanColumn({
     <div
       className={cn(
         "flex flex-col min-w-[340px] w-[340px] h-full rounded-xl",
-        "bg-[#282828] border border-border/50",
+        "bg-card dark:bg-[#282828] border border-border/50",
         "transition-all duration-300 ease-out",
         "shadow-sm hover:shadow-md",
         isOver &&

@@ -371,7 +371,7 @@ export function TaskListView({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex flex-col h-full overflow-auto bg-[#1F1F1F]">
+      <div className="flex flex-col h-full overflow-auto bg-background dark:bg-[#1F1F1F]">
         {groups.map((group) => (
           <TaskGroupSection
             key={group.id}
