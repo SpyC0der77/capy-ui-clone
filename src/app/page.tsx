@@ -8,7 +8,7 @@ import { useSettings } from "@/contexts/settings-context";
 
 function MainContent() {
   return (
-    <main className="flex flex-1 overflow-hidden gap-2 p-2 h-full">
+    <main className="flex flex-1 overflow-hidden gap-2 p-2 h-full bg-sidebar">
       <div className="flex-1 min-w-0 rounded-xl bg-card border border-border overflow-hidden flex flex-col">
         <TaskPanel />
       </div>
