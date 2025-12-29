@@ -164,3 +164,54 @@
     background: oklch(0.6 0 0);
   }
 }
+
+@layer components {
+  [cmdk-root] {
+    max-width: 100%;
+  }
+
+  [cmdk-dialog] {
+    z-index: 50;
+  }
+
+  [cmdk-overlay] {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+
+  [cmdk-list] {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+
+  [cmdk-item] {
+    cursor: pointer;
+    user-select: none;
+    scroll-margin: 8px;
+  }
+
+  [cmdk-item][data-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  [cmdk-item][data-selected="true"] {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  [cmdk-group-heading] {
+    user-select: none;
+  }
+
+  [cmdk-empty] {
+    text-align: center;
+  }
+
+  [cmdk-separator] {
+    height: 1px;
+    width: 100%;
+  }
+}

@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 type ViewMode = "kanban" | "list";
 
-const initialTasks: Task[] = [
+export const initialTasks: Task[] = [
   {
     id: "SCO-001",
     title: "Clone UI with Next.js and ShadCN",
@@ -44,12 +44,21 @@ const initialTasks: Task[] = [
   },
 ];
 
-export function TaskPanel() {
+interface TaskPanelProps {
+  tasks: Task[];
+  setTasks: (tasks: Task[] | ((prev: Task[]) => Task[])) => void;
+  onOpenCreateModal: () => void;
+  onOpenEditModal: (task: Task) => void;
+}
+
+export function TaskPanel({
+  tasks,
+  setTasks,
+  onOpenCreateModal,
+  onOpenEditModal,
+}: TaskPanelProps) {
   const { settings, updateSetting } = useSettings();
   const [activeTab, setActiveTab] = useState<"active" | "done">("active");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   // Use viewMode directly from settings
   const viewMode = settings.viewMode;
@@ -89,34 +98,7 @@ export function TaskPanel() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [activeTab]);
 
-  function handleOpenCreateModal() {
-    setEditingTask(null);
-    setModalOpen(true);
-  }
 
-  function handleOpenEditModal(task: Task) {
-    setEditingTask(task);
-    setModalOpen(true);
-  }
-
-  function handleSaveTask(taskData: Omit<Task, "id"> & { id?: string }) {
-    if (taskData.id) {
-      // Update existing task
-      setTasks((prevTasks) =>
-        prevTasks.map((t) =>
-          t.id === taskData.id ? ({ ...taskData, id: taskData.id } as Task) : t
-        )
-      );
-    } else {
-      // Create new task - generate ID
-      const newId = `SCO-${String(tasks.length + 1).padStart(3, "0")}`;
-      const newTask: Task = {
-        ...taskData,
-        id: newId,
-      } as Task;
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-    }
-  }
 
   return (
     <div className="flex h-full flex-col">
@@ -193,7 +175,7 @@ export function TaskPanel() {
           <Button
             size="sm"
             className="gap-1.5 h-8 ml-1"
-            onClick={handleOpenCreateModal}
+            onClick={onOpenCreateModal}
           >
             <Plus className="size-4" />
             Task
@@ -206,23 +188,16 @@ export function TaskPanel() {
           <KanbanBoard
             tasks={tasks}
             setTasks={setTasks}
-            onTaskClick={handleOpenEditModal}
+            onTaskClick={onOpenEditModal}
           />
         ) : (
           <TaskListView
             tasks={tasks}
             setTasks={setTasks}
-            onTaskClick={handleOpenEditModal}
+            onTaskClick={onOpenEditModal}
           />
         )}
       </div>
-
-      <TaskModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        task={editingTask}
-        onSave={handleSaveTask}
-      />
     </div>
   );
 }
