@@ -137,7 +137,7 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex h-full gap-5 p-5 overflow-x-auto bg-muted dark:bg-[#1F1F1F]">
+      <div className="flex h-full gap-5 p-5 overflow-x-auto bg-background dark:bg-[#1F1F1F]">
         <KanbanColumn
           id="active"
           title="Active"

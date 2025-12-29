@@ -120,7 +120,7 @@ export function TaskPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-4 border-b border-border bg-muted dark:bg-[#1F1F1F]">
+      <div className="flex items-center justify-between px-4 border-b border-border bg-background dark:bg-[#1F1F1F]">
         {/* Sidebar Trigger */}
         <div className="flex items-center gap-2">
           <SidebarTrigger />
