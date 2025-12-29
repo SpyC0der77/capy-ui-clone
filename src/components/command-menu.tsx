@@ -28,9 +28,9 @@ import {
   PanelLeftClose,
   Columns2,
   Square,
-  FileText,
   CircleDot,
   CircleCheck,
+  Search,
 } from "lucide-react";
 
 interface CommandMenuProps {
@@ -74,21 +74,40 @@ export function CommandMenu({
   );
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} showCloseButton={false}>
+    <CommandDialog
+      open={open}
+      onOpenChange={setOpen}
+      showCloseButton={false}
+      className="sm:max-w-[600px]"
+    >
       <CommandInput placeholder="Type a command or search..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+      <CommandList className="max-h-[500px]">
+        <CommandEmpty className="py-8">
+          <div className="flex flex-col items-center gap-2">
+            <div className="rounded-full bg-muted p-3">
+              <Search className="size-5 text-muted-foreground" />
+            </div>
+            <p className="text-sm font-medium">No results found</p>
+            <p className="text-xs text-muted-foreground">
+              Try searching for something else
+            </p>
+          </div>
+        </CommandEmpty>
 
         <CommandGroup heading="Navigation">
-          <CommandItem onSelect={() => runCommand(() => router.push("/"))}>
-            <ListTodo className="size-4" />
-            <span>Tasks</span>
+          <CommandItem
+            onSelect={() => runCommand(() => router.push("/"))}
+            className="gap-3"
+          >
+            <ListTodo className="size-4 shrink-0" />
+            <span className="flex-1">Tasks</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => router.push("/settings"))}
+            className="gap-3"
           >
-            <Settings className="size-4" />
-            <span>Settings</span>
+            <Settings className="size-4 shrink-0" />
+            <span className="flex-1">Settings</span>
           </CommandItem>
         </CommandGroup>
 
@@ -123,15 +142,16 @@ export function CommandMenu({
                       }
                     })
                   }
+                  className="gap-3 py-2.5"
                 >
                   {task.status === "active" ? (
-                    <CircleDot className="size-4 text-amber-500" />
+                    <CircleDot className="size-4 shrink-0 text-amber-500" />
                   ) : (
-                    <CircleCheck className="size-4 text-emerald-500" />
+                    <CircleCheck className="size-4 shrink-0 text-emerald-500" />
                   )}
-                  <div className="flex flex-col">
-                    <span>{task.title}</span>
-                    <span className="text-xs text-muted-foreground">
+                  <div className="flex flex-1 flex-col gap-0.5 min-w-0">
+                    <span className="truncate font-medium">{task.title}</span>
+                    <span className="text-xs text-muted-foreground truncate">
                       {task.id} · {task.date}
                     </span>
                   </div>
@@ -163,9 +183,10 @@ export function CommandMenu({
                 }
               })
             }
+            className="gap-3"
           >
-            <Plus className="size-4" />
-            <span>Create New Task</span>
+            <Plus className="size-4 shrink-0" />
+            <span className="flex-1">Create New Task</span>
             <CommandShortcut>⌘N</CommandShortcut>
           </CommandItem>
         </CommandGroup>
@@ -177,20 +198,22 @@ export function CommandMenu({
             onSelect={() =>
               runCommand(() => updateSetting("viewMode", "kanban"))
             }
+            className="gap-3"
           >
-            <LayoutGrid className="size-4" />
-            <span>Board View</span>
+            <LayoutGrid className="size-4 shrink-0" />
+            <span className="flex-1">Board View</span>
             {settings.viewMode === "kanban" && (
-              <CommandShortcut>✓</CommandShortcut>
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
             )}
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => updateSetting("viewMode", "list"))}
+            className="gap-3"
           >
-            <List className="size-4" />
-            <span>List View</span>
+            <List className="size-4 shrink-0" />
+            <span className="flex-1">List View</span>
             {settings.viewMode === "list" && (
-              <CommandShortcut>✓</CommandShortcut>
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
             )}
           </CommandItem>
 
@@ -200,22 +223,24 @@ export function CommandMenu({
             onSelect={() =>
               runCommand(() => updateSetting("layoutStyle", "split"))
             }
+            className="gap-3"
           >
-            <Columns2 className="size-4" />
-            <span>Split Layout</span>
+            <Columns2 className="size-4 shrink-0" />
+            <span className="flex-1">Split Layout</span>
             {settings.layoutStyle === "split" && (
-              <CommandShortcut>✓</CommandShortcut>
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
             )}
           </CommandItem>
           <CommandItem
             onSelect={() =>
               runCommand(() => updateSetting("layoutStyle", "connected"))
             }
+            className="gap-3"
           >
-            <Square className="size-4" />
-            <span>Connected Layout</span>
+            <Square className="size-4 shrink-0" />
+            <span className="flex-1">Connected Layout</span>
             {settings.layoutStyle === "connected" && (
-              <CommandShortcut>✓</CommandShortcut>
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
             )}
           </CommandItem>
 
@@ -227,13 +252,14 @@ export function CommandMenu({
                 updateSetting("sidebarOpen", !settings.sidebarOpen)
               )
             }
+            className="gap-3"
           >
             {settings.sidebarOpen ? (
-              <PanelLeftClose className="size-4" />
+              <PanelLeftClose className="size-4 shrink-0" />
             ) : (
-              <PanelLeft className="size-4" />
+              <PanelLeft className="size-4 shrink-0" />
             )}
-            <span>
+            <span className="flex-1">
               {settings.sidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
             </span>
             <CommandShortcut>⌘B</CommandShortcut>
@@ -243,20 +269,35 @@ export function CommandMenu({
         <CommandSeparator />
 
         <CommandGroup heading="Theme">
-          <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-            <Sun className="size-4" />
-            <span>Light Mode</span>
-            {theme === "light" && <CommandShortcut>✓</CommandShortcut>}
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("light"))}
+            className="gap-3"
+          >
+            <Sun className="size-4 shrink-0" />
+            <span className="flex-1">Light Mode</span>
+            {theme === "light" && (
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
+            )}
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
-            <Moon className="size-4" />
-            <span>Dark Mode</span>
-            {theme === "dark" && <CommandShortcut>✓</CommandShortcut>}
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("dark"))}
+            className="gap-3"
+          >
+            <Moon className="size-4 shrink-0" />
+            <span className="flex-1">Dark Mode</span>
+            {theme === "dark" && (
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
+            )}
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
-            <Monitor className="size-4" />
-            <span>System Theme</span>
-            {theme === "system" && <CommandShortcut>✓</CommandShortcut>}
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("system"))}
+            className="gap-3"
+          >
+            <Monitor className="size-4 shrink-0" />
+            <span className="flex-1">System Theme</span>
+            {theme === "system" && (
+              <CommandShortcut className="text-primary">✓</CommandShortcut>
+            )}
           </CommandItem>
         </CommandGroup>
       </CommandList>
