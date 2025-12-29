@@ -120,7 +120,7 @@ export function TaskPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-4 border-b border-border bg-card">
+      <div className="flex items-center justify-between px-4 h-12 border-b border-border bg-card shrink-0">
         {/* Sidebar Trigger */}
         <div className="flex items-center gap-2">
           <SidebarTrigger />
@@ -130,7 +130,7 @@ export function TaskPanel() {
               ref={activeButtonRef}
               onClick={() => setActiveTab("active")}
               className={cn(
-                "relative px-3 py-3 text-sm font-medium transition-colors",
+                "relative px-3 h-12 text-sm font-medium transition-colors flex items-center",
                 activeTab === "active"
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -142,7 +142,7 @@ export function TaskPanel() {
               ref={doneButtonRef}
               onClick={() => setActiveTab("done")}
               className={cn(
-                "relative px-3 py-3 text-sm font-medium transition-colors",
+                "relative px-3 h-12 text-sm font-medium transition-colors flex items-center",
                 activeTab === "done"
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
