@@ -8,48 +8,18 @@ import { KanbanBoard, type Task } from "@/components/kanban-board";
 import { TaskListView } from "@/components/task-list-view";
 import { TaskModal } from "@/components/task-modal";
 import { useSettings } from "@/contexts/settings-context";
+import { useTasks } from "@/contexts/tasks-context";
 import { LayoutGrid, List, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type ViewMode = "kanban" | "list";
 
-const initialTasks: Task[] = [
-  {
-    id: "SCO-001",
-    title: "Clone UI with Next.js and ShadCN",
-    description: "Clone this UI in Next.js using ShadCN/ui.",
-    date: "Dec 17",
-    status: "completed",
-  },
-  {
-    id: "SCO-002",
-    title: "Implement authentication flow",
-    description: "Add OAuth and email/password authentication.",
-    date: "Dec 20",
-    status: "active",
-  },
-  {
-    id: "SCO-003",
-    title: "Build API endpoints",
-    description: "Create REST API for task management.",
-    date: "Dec 22",
-    status: "active",
-  },
-  {
-    id: "SCO-004",
-    title: "Design database schema",
-    description: "PostgreSQL schema for users and tasks.",
-    date: "Dec 15",
-    status: "completed",
-  },
-];
-
 export function TaskPanel() {
   const { settings, updateSetting } = useSettings();
+  const { tasks, setTasks } = useTasks();
   const [activeTab, setActiveTab] = useState<"active" | "done">("active");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   // Use viewMode directly from settings
   const viewMode = settings.viewMode;
@@ -96,10 +66,26 @@ export function TaskPanel() {
       setModalOpen(true);
     }
 
+    function handleEditTask(event: Event) {
+      const customEvent = event as CustomEvent<{ taskId: string }>;
+      if (customEvent.detail?.taskId) {
+        const taskToEdit = tasks.find(
+          (t) => t.id === customEvent.detail.taskId
+        );
+        if (taskToEdit) {
+          setEditingTask(taskToEdit);
+          setModalOpen(true);
+        }
+      }
+    }
+
     window.addEventListener("command-menu:create-task", handleCreateTask);
-    return () =>
+    window.addEventListener("command-menu:edit-task", handleEditTask);
+    return () => {
       window.removeEventListener("command-menu:create-task", handleCreateTask);
-  }, []);
+      window.removeEventListener("command-menu:edit-task", handleEditTask);
+    };
+  }, [tasks]);
 
   function handleOpenCreateModal() {
     setEditingTask(null);

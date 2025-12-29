@@ -28,9 +28,7 @@ function ConnectedLayout({ mainContent, sideContent }: PageLayoutProps) {
   return (
     <main className="flex flex-1 overflow-hidden p-2 h-full bg-background">
       <div className="flex flex-1 min-w-0 rounded-xl bg-card border border-border overflow-hidden">
-        <div className="flex-1 min-w-0 flex flex-col">
-          {mainContent}
-        </div>
+        <div className="flex-1 min-w-0 flex flex-col">{mainContent}</div>
         <div className="w-[400px] shrink-0 border-l border-border flex flex-col">
           {sideContent}
         </div>
@@ -43,7 +41,9 @@ function LayoutContent({ mainContent, sideContent }: PageLayoutProps) {
   const { settings } = useSettings();
 
   if (settings.layoutStyle === "connected") {
-    return <ConnectedLayout mainContent={mainContent} sideContent={sideContent} />;
+    return (
+      <ConnectedLayout mainContent={mainContent} sideContent={sideContent} />
+    );
   }
   return <SplitLayout mainContent={mainContent} sideContent={sideContent} />;
 }

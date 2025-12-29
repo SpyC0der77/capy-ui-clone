@@ -14,6 +14,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { useSettings } from "@/contexts/settings-context";
+import { useTasks } from "@/contexts/tasks-context";
 import {
   ListTodo,
   Settings,
@@ -27,6 +28,9 @@ import {
   PanelLeftClose,
   Columns2,
   Square,
+  FileText,
+  CircleDot,
+  CircleCheck,
 } from "lucide-react";
 
 interface CommandMenuProps {
@@ -34,12 +38,16 @@ interface CommandMenuProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuProps) {
+export function CommandMenu({
+  open: controlledOpen,
+  onOpenChange,
+}: CommandMenuProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { setTheme, theme } = useTheme();
   const { settings, updateSetting } = useSettings();
+  const { tasks } = useTasks();
 
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : internalOpen;
@@ -76,7 +84,9 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
             <ListTodo className="size-4" />
             <span>Tasks</span>
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => router.push("/settings"))}>
+          <CommandItem
+            onSelect={() => runCommand(() => router.push("/settings"))}
+          >
             <Settings className="size-4" />
             <span>Settings</span>
           </CommandItem>
@@ -84,21 +94,75 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
 
         <CommandSeparator />
 
+        {tasks.length > 0 && (
+          <>
+            <CommandGroup heading="Tasks">
+              {tasks.map((task) => (
+                <CommandItem
+                  key={task.id}
+                  value={`${task.id} ${task.title} ${task.description}`}
+                  onSelect={() =>
+                    runCommand(() => {
+                      if (pathname !== "/") {
+                        router.push("/");
+                        setTimeout(() => {
+                          window.dispatchEvent(
+                            new CustomEvent("command-menu:edit-task", {
+                              detail: { taskId: task.id },
+                            })
+                          );
+                        }, 300);
+                      } else {
+                        setTimeout(() => {
+                          window.dispatchEvent(
+                            new CustomEvent("command-menu:edit-task", {
+                              detail: { taskId: task.id },
+                            })
+                          );
+                        }, 100);
+                      }
+                    })
+                  }
+                >
+                  {task.status === "active" ? (
+                    <CircleDot className="size-4 text-amber-500" />
+                  ) : (
+                    <CircleCheck className="size-4 text-emerald-500" />
+                  )}
+                  <div className="flex flex-col">
+                    <span>{task.title}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {task.id} · {task.date}
+                    </span>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+            <CommandSeparator />
+          </>
+        )}
+
         <CommandGroup heading="Actions">
           <CommandItem
-            onSelect={() => runCommand(() => {
-              if (pathname !== "/") {
-                // Navigate to tasks page first, then open modal after navigation
-                router.push("/");
-                setTimeout(() => {
-                  window.dispatchEvent(new CustomEvent("command-menu:create-task"));
-                }, 300);
-              } else {
-                setTimeout(() => {
-                  window.dispatchEvent(new CustomEvent("command-menu:create-task"));
-                }, 100);
-              }
-            })}
+            onSelect={() =>
+              runCommand(() => {
+                if (pathname !== "/") {
+                  // Navigate to tasks page first, then open modal after navigation
+                  router.push("/");
+                  setTimeout(() => {
+                    window.dispatchEvent(
+                      new CustomEvent("command-menu:create-task")
+                    );
+                  }, 300);
+                } else {
+                  setTimeout(() => {
+                    window.dispatchEvent(
+                      new CustomEvent("command-menu:create-task")
+                    );
+                  }, 100);
+                }
+              })
+            }
           >
             <Plus className="size-4" />
             <span>Create New Task</span>
@@ -110,7 +174,9 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
 
         <CommandGroup heading="View">
           <CommandItem
-            onSelect={() => runCommand(() => updateSetting("viewMode", "kanban"))}
+            onSelect={() =>
+              runCommand(() => updateSetting("viewMode", "kanban"))
+            }
           >
             <LayoutGrid className="size-4" />
             <span>Board View</span>
@@ -131,7 +197,9 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
           <CommandSeparator className="my-1" />
 
           <CommandItem
-            onSelect={() => runCommand(() => updateSetting("layoutStyle", "split"))}
+            onSelect={() =>
+              runCommand(() => updateSetting("layoutStyle", "split"))
+            }
           >
             <Columns2 className="size-4" />
             <span>Split Layout</span>
@@ -140,7 +208,9 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
             )}
           </CommandItem>
           <CommandItem
-            onSelect={() => runCommand(() => updateSetting("layoutStyle", "connected"))}
+            onSelect={() =>
+              runCommand(() => updateSetting("layoutStyle", "connected"))
+            }
           >
             <Square className="size-4" />
             <span>Connected Layout</span>
@@ -152,14 +222,20 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
           <CommandSeparator className="my-1" />
 
           <CommandItem
-            onSelect={() => runCommand(() => updateSetting("sidebarOpen", !settings.sidebarOpen))}
+            onSelect={() =>
+              runCommand(() =>
+                updateSetting("sidebarOpen", !settings.sidebarOpen)
+              )
+            }
           >
             {settings.sidebarOpen ? (
               <PanelLeftClose className="size-4" />
             ) : (
               <PanelLeft className="size-4" />
             )}
-            <span>{settings.sidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}</span>
+            <span>
+              {settings.sidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
+            </span>
             <CommandShortcut>⌘B</CommandShortcut>
           </CommandItem>
         </CommandGroup>
@@ -187,4 +263,3 @@ export function CommandMenu({ open: controlledOpen, onOpenChange }: CommandMenuP
     </CommandDialog>
   );
 }
-

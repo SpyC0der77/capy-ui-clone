@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { SettingsProvider } from "@/contexts/settings-context";
+import { TasksProvider } from "@/contexts/tasks-context";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
@@ -37,8 +39,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SettingsProvider>
-            {children}
-            <Toaster />
+            <TasksProvider>
+              {children}
+              <Toaster />
+            </TasksProvider>
           </SettingsProvider>
         </ThemeProvider>
       </body>
