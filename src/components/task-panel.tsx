@@ -9,6 +9,7 @@ import { TaskListView } from "@/components/task-list-view";
 import { TaskModal } from "@/components/task-modal";
 import { useSettings } from "@/contexts/settings-context";
 import { useTasks } from "@/contexts/tasks-context";
+import { useNotifications } from "@/contexts/notifications-context";
 import { LayoutGrid, List, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ type ViewMode = "kanban" | "list";
 export function TaskPanel() {
   const { settings, updateSetting } = useSettings();
   const { tasks, setTasks } = useTasks();
+  const { addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState<"active" | "done">("active");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -99,20 +101,40 @@ export function TaskPanel() {
 
   function handleSaveTask(taskData: Omit<Task, "id"> & { id?: string }) {
     if (taskData.id) {
-      // Update existing task
+      const oldTask = tasks.find((t) => t.id === taskData.id);
       setTasks((prevTasks) =>
         prevTasks.map((t) =>
           t.id === taskData.id ? ({ ...taskData, id: taskData.id } as Task) : t
         )
       );
+      if (oldTask?.status !== taskData.status && taskData.status === "completed") {
+        addNotification({
+          type: "task_completed",
+          title: "Task completed",
+          description: `"${taskData.title}" has been marked as done.`,
+          taskId: taskData.id,
+        });
+      } else {
+        addNotification({
+          type: "task_updated",
+          title: "Task updated",
+          description: `"${taskData.title}" has been updated.`,
+          taskId: taskData.id,
+        });
+      }
     } else {
-      // Create new task - generate ID
       const newId = `SCO-${String(tasks.length + 1).padStart(3, "0")}`;
       const newTask: Task = {
         ...taskData,
         id: newId,
       } as Task;
       setTasks((prevTasks) => [...prevTasks, newTask]);
+      addNotification({
+        type: "task_created",
+        title: "Task created",
+        description: `"${taskData.title}" has been added to your board.`,
+        taskId: newId,
+      });
     }
   }
 
