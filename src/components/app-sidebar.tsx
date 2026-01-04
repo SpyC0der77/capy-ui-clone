@@ -169,7 +169,7 @@ export function AppSidebar({ onSearchClick }: AppSidebarProps) {
           >
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground stroke-2 fill-none" />
             <div className="h-9 bg-muted/80 border-0 pl-9 pr-12 text-sm text-muted-foreground rounded-md flex items-center hover:bg-muted transition-colors cursor-pointer">
-              Search tasks and threads
+              Search tasks
             </div>
             <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted text-muted-foreground rounded">
               ⌘K
