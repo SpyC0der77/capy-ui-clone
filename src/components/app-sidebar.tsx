@@ -172,7 +172,10 @@ export function AppSidebar({ onSearchClick }: AppSidebarProps) {
               Search tasks
             </div>
             <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted text-muted-foreground rounded">
-              ⌘K
+              {typeof window !== "undefined" &&
+              navigator.platform.includes("Win")
+                ? "Ctrl K"
+                : "⌘K"}
             </Kbd>
           </button>
         </SidebarGroup>

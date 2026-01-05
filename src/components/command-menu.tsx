@@ -96,6 +96,7 @@ export function CommandMenu({
 
         <CommandGroup heading="Navigation">
           <CommandItem
+            value="tasks"
             onSelect={() => runCommand(() => router.push("/"))}
             className="gap-3"
           >
@@ -103,6 +104,7 @@ export function CommandMenu({
             <span className="flex-1">Tasks</span>
           </CommandItem>
           <CommandItem
+            value="settings"
             onSelect={() => runCommand(() => router.push("/settings"))}
             className="gap-3"
           >
