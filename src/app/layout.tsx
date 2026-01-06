@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { SettingsProvider } from "@/contexts/settings-context";
 import { TasksProvider } from "@/contexts/tasks-context";
+import { NotificationsProvider } from "@/contexts/notifications-context";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -40,8 +41,10 @@ export default function RootLayout({
         >
           <SettingsProvider>
             <TasksProvider>
-              {children}
-              <Toaster />
+              <NotificationsProvider>
+                {children}
+                <Toaster />
+              </NotificationsProvider>
             </TasksProvider>
           </SettingsProvider>
         </ThemeProvider>

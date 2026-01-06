@@ -39,6 +39,7 @@ import {
   User,
 } from "lucide-react";
 import { Kbd } from "@/components/ui/kbd";
+import { NotificationsPopover } from "@/components/notifications-popover";
 import { cn } from "@/lib/utils";
 
 const workspaces = [
@@ -154,6 +155,7 @@ export function AppSidebar({ onSearchClick }: AppSidebarProps) {
             </PopoverContent>
           </Popover>
           <div className="flex items-center gap-1 group-data-[collapsible=icon]:hidden">
+            <NotificationsPopover />
             <Button variant="ghost" size="icon" className="size-7">
               <Settings className="size-4 text-muted-foreground" />
             </Button>

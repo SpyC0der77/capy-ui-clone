@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { KanbanColumn } from "./kanban-column";
 import { KanbanCard, SortableKanbanCard } from "./kanban-card";
+import { useNotifications } from "@/contexts/notifications-context";
 
 export interface Task {
   id: string;
@@ -43,6 +44,7 @@ export function KanbanBoard({
   onTaskClick,
 }: KanbanBoardProps) {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const { addNotification } = useNotifications();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -76,7 +78,6 @@ export function KanbanBoard({
     const activeTask = tasks.find((t) => t.id === activeId);
     if (!activeTask) return;
 
-    // Check if we're dropping over a column
     if (overId === "active" || overId === "completed") {
       const newStatus = overId as "active" | "completed";
       if (activeTask.status !== newStatus) {
@@ -85,11 +86,18 @@ export function KanbanBoard({
             t.id === activeId ? { ...t, status: newStatus } : t
           )
         );
+        if (newStatus === "completed") {
+          addNotification({
+            type: "task_completed",
+            title: "Task completed",
+            description: `"${activeTask.title}" has been marked as done.`,
+            taskId: activeId,
+          });
+        }
       }
       return;
     }
 
-    // Check if we're dropping over another task
     const overTask = tasks.find((t) => t.id === overId);
     if (overTask && activeTask.status !== overTask.status) {
       setTasks((tasks) =>
@@ -97,6 +105,14 @@ export function KanbanBoard({
           t.id === activeId ? { ...t, status: overTask.status } : t
         )
       );
+      if (overTask.status === "completed") {
+        addNotification({
+          type: "task_completed",
+          title: "Task completed",
+          description: `"${activeTask.title}" has been marked as done.`,
+          taskId: activeId,
+        });
+      }
     }
   }
 
