@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -17,47 +17,11 @@ type ViewMode = "kanban" | "list";
 export function TaskPanel() {
   const { settings, updateSetting } = useSettings();
   const { tasks, setTasks } = useTasks();
-  const [activeTab, setActiveTab] = useState<"active" | "done">("active");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   // Use viewMode directly from settings
   const viewMode = settings.viewMode;
-  const activeButtonRef = useRef<HTMLButtonElement>(null);
-  const doneButtonRef = useRef<HTMLButtonElement>(null);
-  const [indicatorStyle, setIndicatorStyle] = useState({
-    left: 0,
-    width: 0,
-  });
-
-  useEffect(() => {
-    function updateIndicator() {
-      const activeButton = activeButtonRef.current;
-      const doneButton = doneButtonRef.current;
-      const container = activeButton?.parentElement;
-
-      if (!activeButton || !doneButton || !container) return;
-
-      const activeRect = activeButton.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-
-      if (activeTab === "active") {
-        setIndicatorStyle({
-          left: activeRect.left - containerRect.left,
-          width: activeRect.width,
-        });
-      } else {
-        setIndicatorStyle({
-          left: doneButton.getBoundingClientRect().left - containerRect.left,
-          width: doneButton.getBoundingClientRect().width,
-        });
-      }
-    }
-
-    updateIndicator();
-    window.addEventListener("resize", updateIndicator);
-    return () => window.removeEventListener("resize", updateIndicator);
-  }, [activeTab]);
 
   // Listen for command menu create task event
   useEffect(() => {
@@ -122,40 +86,6 @@ export function TaskPanel() {
         {/* Sidebar Trigger */}
         <div className="flex items-center gap-2">
           <SidebarTrigger />
-          {/* Tabs */}
-          <div className="relative flex items-center gap-1">
-            <button
-              ref={activeButtonRef}
-              onClick={() => setActiveTab("active")}
-              className={cn(
-                "relative px-3 h-12 text-sm font-medium transition-colors flex items-center",
-                activeTab === "active"
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Active
-            </button>
-            <button
-              ref={doneButtonRef}
-              onClick={() => setActiveTab("done")}
-              className={cn(
-                "relative px-3 h-12 text-sm font-medium transition-colors flex items-center",
-                activeTab === "done"
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Done
-            </button>
-            <span
-              className="absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ease-in-out"
-              style={{
-                left: `${indicatorStyle.left}px`,
-                width: `${indicatorStyle.width}px`,
-              }}
-            />
-          </div>
         </div>
 
         {/* Actions */}

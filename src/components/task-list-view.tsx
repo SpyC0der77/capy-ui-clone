@@ -40,7 +40,7 @@ interface TaskListViewProps {
 interface TaskGroup {
   id: string;
   title: string;
-  status: "active" | "completed";
+  status: "todo" | "in progress" | "done" | "cancelled";
   icon: React.ReactNode;
   iconColor: string;
   tasks: Task[];
@@ -73,7 +73,18 @@ function TaskRow({
   onTaskClick?: (task: Task) => void;
   isOverlay?: boolean;
 }) {
-  const isActive = task.status === "active";
+  function getStatusIcon() {
+    switch (task.status) {
+      case "todo":
+        return <CircleDot className="size-4 text-gray-500" />;
+      case "in progress":
+        return <CircleDot className="size-4 text-amber-500" />;
+      case "done":
+        return <CircleCheck className="size-4 text-emerald-500" />;
+      case "cancelled":
+        return <CircleDot className="size-4 text-red-500" />;
+    }
+  }
 
   return (
     <div
@@ -93,11 +104,7 @@ function TaskRow({
 
       {/* Status Icon */}
       <div className="shrink-0">
-        {isActive ? (
-          <CircleDot className="size-4 text-amber-500" />
-        ) : (
-          <CircleCheck className="size-4 text-emerald-500" />
-        )}
+        {getStatusIcon()}
       </div>
 
       {/* Title */}
@@ -268,25 +275,43 @@ export function TaskListView({
     })
   );
 
-  const activeTasks = tasks.filter((task) => task.status === "active");
-  const completedTasks = tasks.filter((task) => task.status === "completed");
+  const todoTasks = tasks.filter((task) => task.status === "todo");
+  const inProgressTasks = tasks.filter((task) => task.status === "in progress");
+  const doneTasks = tasks.filter((task) => task.status === "done");
+  const cancelledTasks = tasks.filter((task) => task.status === "cancelled");
 
   const groups: TaskGroup[] = [
     {
+      id: "todo",
+      title: "Todo",
+      status: "todo" as const,
+      icon: <CircleDot className="size-4 text-gray-500" />,
+      iconColor: "text-gray-500",
+      tasks: todoTasks,
+    },
+    {
       id: "in-progress",
       title: "In Progress",
-      status: "active" as const,
+      status: "in progress" as const,
       icon: <CircleDot className="size-4 text-amber-500" />,
       iconColor: "text-amber-500",
-      tasks: activeTasks,
+      tasks: inProgressTasks,
     },
     {
       id: "done",
       title: "Done",
-      status: "completed" as const,
+      status: "done" as const,
       icon: <CircleCheck className="size-4 text-emerald-500" />,
       iconColor: "text-emerald-500",
-      tasks: completedTasks,
+      tasks: doneTasks,
+    },
+    {
+      id: "cancelled",
+      title: "Cancelled",
+      status: "cancelled" as const,
+      icon: <CircleDot className="size-4 text-red-500" />,
+      iconColor: "text-red-500",
+      tasks: cancelledTasks,
     },
   ];
 
@@ -309,8 +334,13 @@ export function TaskListView({
     if (!activeTask) return;
 
     // Check if we're dropping over a section
-    if (overId === "in-progress" || overId === "done") {
-      const newStatus = overId === "in-progress" ? "active" : "completed";
+    if (overId === "todo" || overId === "in-progress" || overId === "done" || overId === "cancelled") {
+      let newStatus: "todo" | "in progress" | "done" | "cancelled";
+      if (overId === "in-progress") {
+        newStatus = "in progress";
+      } else {
+        newStatus = overId as "todo" | "done" | "cancelled";
+      }
       if (activeTask.status !== newStatus) {
         setTasks((tasks) =>
           tasks.map((t) =>

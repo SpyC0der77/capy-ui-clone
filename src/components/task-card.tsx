@@ -7,7 +7,7 @@ interface TaskCardProps {
   title: string;
   description: string;
   date: string;
-  status: "completed" | "active";
+  status: "todo" | "in progress" | "done" | "cancelled";
 }
 
 export function TaskCard({

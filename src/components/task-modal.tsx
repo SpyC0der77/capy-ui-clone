@@ -39,7 +39,7 @@ export function TaskModal({
     title: "",
     description: "",
     date: "",
-    status: "active" as "active" | "completed",
+    status: "todo" as "todo" | "in progress" | "done" | "cancelled",
   });
 
   const isEditMode = !!task;
@@ -61,7 +61,7 @@ export function TaskModal({
         title: "",
         description: "",
         date: `${month} ${day}`,
-        status: "active",
+        status: "todo",
       });
     }
   }, [task, open]);
@@ -133,7 +133,7 @@ export function TaskModal({
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: "active" | "completed") =>
+                onValueChange={(value: "todo" | "in progress" | "done" | "cancelled") =>
                   setFormData({ ...formData, status: value })
                 }
               >
@@ -141,8 +141,10 @@ export function TaskModal({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="todo">Todo</SelectItem>
+                  <SelectItem value="in progress">In Progress</SelectItem>
+                  <SelectItem value="done">Done</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
                 </SelectContent>
               </Select>
             </div>

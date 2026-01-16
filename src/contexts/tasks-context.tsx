@@ -16,28 +16,28 @@ const initialTasks: Task[] = [
     title: "Clone UI with Next.js and ShadCN",
     description: "Clone this UI in Next.js using ShadCN/ui.",
     date: "Dec 17",
-    status: "completed",
+    status: "done",
   },
   {
     id: "SCO-002",
     title: "Implement authentication flow",
     description: "Add OAuth and email/password authentication.",
     date: "Dec 20",
-    status: "active",
+    status: "in progress",
   },
   {
     id: "SCO-003",
     title: "Build API endpoints",
     description: "Create REST API for task management.",
     date: "Dec 22",
-    status: "active",
+    status: "todo",
   },
   {
     id: "SCO-004",
     title: "Design database schema",
     description: "PostgreSQL schema for users and tasks.",
     date: "Dec 15",
-    status: "completed",
+    status: "done",
   },
 ];
 

@@ -28,7 +28,7 @@ export interface Task {
   title: string;
   description: string;
   date: string;
-  status: "active" | "completed";
+  status: "todo" | "in progress" | "done" | "cancelled";
 }
 
 interface KanbanBoardProps {
@@ -55,8 +55,10 @@ export function KanbanBoard({
     })
   );
 
-  const activeTasks = tasks.filter((task) => task.status === "active");
-  const completedTasks = tasks.filter((task) => task.status === "completed");
+  const todoTasks = tasks.filter((task) => task.status === "todo");
+  const inProgressTasks = tasks.filter((task) => task.status === "in progress");
+  const doneTasks = tasks.filter((task) => task.status === "done");
+  const cancelledTasks = tasks.filter((task) => task.status === "cancelled");
 
   function handleDragStart(event: DragStartEvent) {
     const { active } = event;
@@ -77,8 +79,8 @@ export function KanbanBoard({
     if (!activeTask) return;
 
     // Check if we're dropping over a column
-    if (overId === "active" || overId === "completed") {
-      const newStatus = overId as "active" | "completed";
+    if (overId === "todo" || overId === "in progress" || overId === "done" || overId === "cancelled") {
+      const newStatus = overId as "todo" | "in progress" | "done" | "cancelled";
       if (activeTask.status !== newStatus) {
         setTasks((tasks) =>
           tasks.map((t) =>
@@ -139,16 +141,16 @@ export function KanbanBoard({
     >
       <div className="flex h-full gap-5 p-5 overflow-x-auto bg-card">
         <KanbanColumn
-          id="active"
-          title="Active"
-          count={activeTasks.length}
-          accentColor="bg-[#0070C3]"
+          id="todo"
+          title="Todo"
+          count={todoTasks.length}
+          accentColor="bg-[#6B7280]"
         >
           <SortableContext
-            items={activeTasks.map((t) => t.id)}
+            items={todoTasks.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
           >
-            {activeTasks.map((task) => (
+            {todoTasks.map((task) => (
               <SortableKanbanCard
                 key={task.id}
                 task={task}
@@ -159,16 +161,56 @@ export function KanbanBoard({
         </KanbanColumn>
 
         <KanbanColumn
-          id="completed"
-          title="Done"
-          count={completedTasks.length}
-          accentColor="bg-[#0070C3]"
+          id="in progress"
+          title="In Progress"
+          count={inProgressTasks.length}
+          accentColor="bg-[#F59E0B]"
         >
           <SortableContext
-            items={completedTasks.map((t) => t.id)}
+            items={inProgressTasks.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
           >
-            {completedTasks.map((task) => (
+            {inProgressTasks.map((task) => (
+              <SortableKanbanCard
+                key={task.id}
+                task={task}
+                onTaskClick={onTaskClick}
+              />
+            ))}
+          </SortableContext>
+        </KanbanColumn>
+
+        <KanbanColumn
+          id="done"
+          title="Done"
+          count={doneTasks.length}
+          accentColor="bg-[#10B981]"
+        >
+          <SortableContext
+            items={doneTasks.map((t) => t.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {doneTasks.map((task) => (
+              <SortableKanbanCard
+                key={task.id}
+                task={task}
+                onTaskClick={onTaskClick}
+              />
+            ))}
+          </SortableContext>
+        </KanbanColumn>
+
+        <KanbanColumn
+          id="cancelled"
+          title="Cancelled"
+          count={cancelledTasks.length}
+          accentColor="bg-[#EF4444]"
+        >
+          <SortableContext
+            items={cancelledTasks.map((t) => t.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {cancelledTasks.map((task) => (
               <SortableKanbanCard
                 key={task.id}
                 task={task}

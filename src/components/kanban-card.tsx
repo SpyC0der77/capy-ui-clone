@@ -57,7 +57,7 @@ export function KanbanCard({ task, isOverlay, onTaskClick }: KanbanCardProps) {
         <div className="flex items-center gap-1.5">
           <Clock className="size-3 text-muted-foreground/60" />
           <span className="text-xs text-muted-foreground/70 font-medium capitalize">
-            {task.status === "completed" ? "Completed" : "In Progress"}
+            {task.status === "in progress" ? "In Progress" : task.status.charAt(0).toUpperCase() + task.status.slice(1)}
           </span>
         </div>
         <div

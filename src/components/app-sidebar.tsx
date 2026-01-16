@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Sidebar,
@@ -87,6 +87,14 @@ export function AppSidebar({ onSearchClick }: AppSidebarProps) {
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState("scratchpad");
+  const [isWindows, setIsWindows] = useState(false);
+
+  useEffect(() => {
+    setIsWindows(
+      typeof window !== "undefined" &&
+        navigator.platform.toLowerCase().includes("win")
+    );
+  }, []);
 
   const selectedWorkspaceData = workspaces.find(
     (w) => w.value === selectedWorkspace
@@ -172,10 +180,7 @@ export function AppSidebar({ onSearchClick }: AppSidebarProps) {
               Search tasks
             </div>
             <Kbd className="absolute right-2 top-1/2 -translate-y-1/2 bg-muted text-muted-foreground rounded">
-              {typeof window !== "undefined" &&
-              navigator.platform.includes("Win")
-                ? "Ctrl K"
-                : "⌘K"}
+              {isWindows ? "Ctrl K" : "⌘K"}
             </Kbd>
           </button>
         </SidebarGroup>

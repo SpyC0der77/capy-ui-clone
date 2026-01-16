@@ -146,10 +146,14 @@ export function CommandMenu({
                   }
                   className="gap-3 py-2.5"
                 >
-                  {task.status === "active" ? (
+                  {task.status === "todo" ? (
+                    <CircleDot className="size-4 shrink-0 text-gray-500" />
+                  ) : task.status === "in progress" ? (
                     <CircleDot className="size-4 shrink-0 text-amber-500" />
-                  ) : (
+                  ) : task.status === "done" ? (
                     <CircleCheck className="size-4 shrink-0 text-emerald-500" />
+                  ) : (
+                    <CircleDot className="size-4 shrink-0 text-red-500" />
                   )}
                   <div className="flex flex-1 flex-col gap-0.5 min-w-0">
                     <span className="truncate font-medium">{task.title}</span>
