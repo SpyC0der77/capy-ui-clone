@@ -1,0 +1,26 @@
+{
+  "name": "capy-ui-clone",
+  "url": "https://capy-ui-clone.vercel.app",
+  "width": 960,
+  "height": 600,
+  "fps": 18,
+  "duration": 30.333333333333332,
+  "events": [
+    {
+      "time": 0.67,
+      "text": "Board and task creation"
+    },
+    {
+      "time": 14.78,
+      "verified": "New task appears in the board"
+    },
+    {
+      "time": 14.78,
+      "text": "List view and editing a task"
+    },
+    {
+      "time": 24.67,
+      "text": "Completed task on the board"
+    }
+  ]
+}

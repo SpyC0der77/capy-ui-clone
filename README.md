@@ -4,7 +4,11 @@ A task-management interface prototype inspired by Capy, with a task workspace an
 
 ## Demo
 
-![Creating a task, then switching from board to list view.](docs/images/demo.gif)
+![Creating a task, switching to list view, editing its status, and finding it in the Done column.](docs/images/demo.gif)
+
+[Watch the MP4](docs/images/demo.mp4) · [Recording script](docs/demo/README.md)
+
+[Watch the MP4](docs/images/demo.mp4) · [Recording script](docs/demo/README.md)
 
 <details>
 <summary>Screenshot</summary>
