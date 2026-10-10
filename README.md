@@ -6,8 +6,6 @@ A task-management interface prototype inspired by Capy, with a task workspace an
 
 ![Creating a task, then switching from board to list view.](docs/images/demo.gif)
 
-Creating a task, then switching from board to list view.
-
 <details>
 <summary>Screenshot</summary>
 
