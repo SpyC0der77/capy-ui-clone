@@ -2,7 +2,18 @@
 
 A task-management interface prototype inspired by Capy, with a task workspace and a companion chat panel.
 
+## Demo
+
+![Creating a task, then switching from board to list view.](docs/images/demo.gif)
+
+Creating a task, then switching from board to list view.
+
+<details>
+<summary>Screenshot</summary>
+
 ![Task board and companion chat panel](docs/images/app.png)
+
+</details>
 
 [Live demo](https://capy-ui-clone.vercel.app)
 
