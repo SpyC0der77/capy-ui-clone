@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Capy UI Clone
 
-## Getting Started
+A task-management interface prototype inspired by Capy, with a task workspace and a companion chat panel.
 
-First, run the development server:
+![Task board and companion chat panel](docs/images/app.png)
+
+[Live demo](https://capy-ui-clone.vercel.app)
+
+## What it does
+
+- Create and edit tasks in a modal.
+- Organize tasks in board and list views with drag-and-drop interactions.
+- Change layout and display settings.
+- Open the command menu to navigate the interface.
+
+## Run locally
+
+Use Node.js 20.9+ and npm.
 
 ```bash
+git clone https://github.com/SpyC0der77/capy-ui-clone.git
+cd capy-ui-clone
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production app |
+| `npm run start` | Serve a production build |
+| `npm run lint` | Run ESLint |
 
-## Learn More
+Run `build` before `start`.
 
-To learn more about Next.js, take a look at the following resources:
+## Dependencies and limitations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tasks use client-side React state and reset on reload. Display settings are saved in local storage. The chat panel is a UI mockup; there is no AI provider, authentication service, or shared task backend.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Source layout
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [`src/components/task-panel.tsx`](src/components/task-panel.tsx): Task workspace.
+- [`src/components/chat-panel.tsx`](src/components/chat-panel.tsx): Chat mockup.
+- [`src/contexts/tasks-context.tsx`](src/contexts/tasks-context.tsx): Demo tasks and state.
+- [`src/contexts/settings-context.tsx`](src/contexts/settings-context.tsx): Saved display settings.
